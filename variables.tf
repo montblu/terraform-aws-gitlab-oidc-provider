@@ -38,16 +38,6 @@ variable "project_paths" {
   description = "List of GitLab namesapce/project names authorized to assume the role."
   type        = list(string)
   default     = []
-
-  validation {
-    # Ensures each element of gitlab_projects list matches the
-    # namespace/project format used by GitLab.
-    condition = length([
-      for path in var.project_paths : 1
-      if length(regexall("project_path:[A-Za-z0-9_.-]+?/([A-Za-z0-9_.:/-]+|\\*)$", path)) > 0
-    ]) == length(var.project_paths)
-    error_message = "Projects must be specified in the "project_path:namespace/project" format."
-  }
 }
 
 variable "max_session_duration" {
